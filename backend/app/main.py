@@ -11,7 +11,7 @@ from app.api.api_v1.api import api_router
 def create_application() -> FastAPI:
     app = FastAPI(
         title=settings.PROJECT_NAME,
-        description="Backend API for Japanese Language Learning App with OCR and Speech Recognition",
+        description="Backend API for Language Learning App with OCR and Speech Recognition",
         version="1.0.0",
         openapi_url=f"{settings.API_V1_STR}/openapi.json"
     )
@@ -19,7 +19,7 @@ def create_application() -> FastAPI:
     # CORS middleware
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.BACKEND_CORS_ORIGINS,
+        allow_origins=settings.get_cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -46,7 +46,9 @@ def create_application() -> FastAPI:
         return {
             "status": "healthy", 
             "service": settings.PROJECT_NAME,
-            "version": "1.0.0"
+            "version": "1.0.0",
+            "environment": settings.ENVIRONMENT,
+            "debug": settings.DEBUG
         }
     
     # Root endpoint
@@ -67,4 +69,9 @@ app = create_application()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(
+        app, 
+        host=settings.HOST, 
+        port=settings.PORT, 
+        reload=settings.DEBUG
+    )

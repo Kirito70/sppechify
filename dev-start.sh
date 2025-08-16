@@ -60,10 +60,10 @@ echo "  - Install Expo Go app on your device"
 echo "  - Scan QR code from the frontend terminal"
 echo ""
 echo "🛑 To stop all services:"
-echo "  - Press Ctrl+C and run: docker-compose down"
+echo "  - Press Ctrl+C and run: docker compose down"
 
 # Wait for user input to stop
 echo "Press Ctrl+C to stop all services..."
-trap 'kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; docker-compose down; exit' INT
+trap 'kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; docker compose down; exit' INT
 
 wait

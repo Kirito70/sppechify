@@ -2,19 +2,20 @@ version: '3.8'
 
 services:
   # PostgreSQL Database
-  postgres:
+  db:
     image: postgres:15
+    container_name: language_learning_db
     environment:
-      POSTGRES_DB: japanese_learning
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: language_learning
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"  # Use different port to avoid conflicts
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker-configs/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d japanese_learning"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d language_learning"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,8 +23,9 @@ services:
   # Redis Cache
   redis:
     image: redis:7-alpine
+    container_name: language_learning_redis
     ports:
-      - "6378:6379"  # Use different port to avoid conflicts
+      - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -37,17 +39,19 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
+    container_name: language_learning_backend
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
       - backend_uploads:/app/uploads
+    env_file:
+      - ./backend/.env
     environment:
-      - DATABASE_URL=postgresql://user:password@postgres:5432/japanese_learning
-      - REDIS_URL=redis://redis:6379/0
-      - SECRET_KEY=your-dev-secret-key-here
+      - POSTGRES_HOST=db
+      - REDIS_HOST=redis
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
       redis:
         condition: service_healthy

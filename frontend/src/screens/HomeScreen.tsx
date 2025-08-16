@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import env from '../config/env';
 
 export default function HomeScreen() {
   const { t } = useTranslation('common');
@@ -27,6 +28,11 @@ export default function HomeScreen() {
           <Text style={{ fontSize: 16, color: '#e0e7ff' }}>
             {t('home.welcomeMessage')}
           </Text>
+          {env.ENABLE_DEBUG_LOGS && __DEV__ && (
+            <Text style={{ fontSize: 12, color: '#e0e7ff', marginTop: 8 }}>
+              🔧 API: {env.API_BASE_URL}
+            </Text>
+          )}
         </View>
 
         {/* Daily Progress */}
@@ -84,13 +90,20 @@ export default function HomeScreen() {
             {t('home.quickActions')}
           </Text>
           
-          <TouchableOpacity style={{ 
-            backgroundColor: '#22c55e',
-            padding: 16,
-            borderRadius: 12,
-            marginBottom: 12,
-            alignItems: 'center'
-          }}>
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: '#22c55e',
+              padding: 16,
+              borderRadius: 12,
+              marginBottom: 12,
+              alignItems: 'center'
+            }}
+            onPress={() => {
+              if (env.ENABLE_DEBUG_LOGS) {
+                console.log('Start Learning pressed');
+              }
+            }}
+          >
             <Text style={{ 
               color: 'white', 
               fontSize: 16, 
@@ -100,13 +113,20 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={{ 
-            backgroundColor: '#3b82f6',
-            padding: 16,
-            borderRadius: 12,
-            marginBottom: 12,
-            alignItems: 'center'
-          }}>
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: '#3b82f6',
+              padding: 16,
+              borderRadius: 12,
+              marginBottom: 12,
+              alignItems: 'center'
+            }}
+            onPress={() => {
+              if (env.ENABLE_DEBUG_LOGS) {
+                console.log('Take Photo pressed - API Base URL:', env.API_BASE_URL);
+              }
+            }}
+          >
             <Text style={{ 
               color: 'white', 
               fontSize: 16, 
@@ -116,13 +136,20 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={{ 
-            backgroundColor: '#f59e0b',
-            padding: 16,
-            borderRadius: 12,
-            marginBottom: 12,
-            alignItems: 'center'
-          }}>
+          <TouchableOpacity 
+            style={{ 
+              backgroundColor: '#f59e0b',
+              padding: 16,
+              borderRadius: 12,
+              marginBottom: 12,
+              alignItems: 'center'
+            }}
+            onPress={() => {
+              if (env.ENABLE_DEBUG_LOGS) {
+                console.log('Review Cards pressed');
+              }
+            }}
+          >
             <Text style={{ 
               color: 'white', 
               fontSize: 16, 

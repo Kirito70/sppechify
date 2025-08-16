@@ -3,13 +3,13 @@
 ## 🛠️ Development (Default)
 ```bash
 # Start development services (with hot reload)
-docker-compose up -d postgres redis
+docker compose up -d postgres redis
 
 # Or start everything including backend
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f backend
+docker compose logs -f backend
 ```
 
 **Features:**
@@ -21,10 +21,10 @@ docker-compose logs -f backend
 ## 🚀 Production
 ```bash
 # Start production services
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 
 # View logs
-docker-compose -f docker-compose.prod.yml logs -f
+docker compose -f docker-compose.prod.yml logs -f
 ```
 
 **Features:**
