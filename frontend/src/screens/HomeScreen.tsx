@@ -1,11 +1,31 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
 import env from '../config/env';
 
 export default function HomeScreen() {
   const { t } = useTranslation('common');
+  const { state, logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert(
+      t('profile.logout'),
+      'Are you sure you want to log out?',
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('profile.logout'),
+          style: 'destructive',
+          onPress: logout,
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
@@ -17,17 +37,34 @@ export default function HomeScreen() {
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20
         }}>
-          <Text style={{ 
-            fontSize: 24, 
-            fontWeight: 'bold', 
-            color: 'white',
-            marginBottom: 8 
-          }}>
-            {t('home.title')}
-          </Text>
-          <Text style={{ fontSize: 16, color: '#e0e7ff' }}>
-            {t('home.welcomeMessage')}
-          </Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View>
+              <Text style={{ 
+                fontSize: 24, 
+                fontWeight: 'bold', 
+                color: 'white',
+                marginBottom: 8 
+              }}>
+                {t('home.title')}
+              </Text>
+              <Text style={{ fontSize: 16, color: '#e0e7ff' }}>
+                {t('home.welcomeMessage')} {state.user?.fullName && `${state.user.fullName.split(' ')[0]}!`}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                paddingHorizontal: 12,
+                paddingVertical: 8,
+                borderRadius: 8,
+              }}
+            >
+              <Text style={{ color: 'white', fontSize: 14, fontWeight: '500' }}>
+                {t('profile.logout')}
+              </Text>
+            </TouchableOpacity>
+          </View>
           {env.ENABLE_DEBUG_LOGS && __DEV__ && (
             <Text style={{ fontSize: 12, color: '#e0e7ff', marginTop: 8 }}>
               🔧 API: {env.API_BASE_URL}

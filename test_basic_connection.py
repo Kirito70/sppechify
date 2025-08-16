@@ -23,13 +23,13 @@ def test_basic_connection():
             print(f"❌ Could not install/import psycopg2: {e}")
             return False
     
-    # Database connection parameters from docker-compose.yml
+    # Database connection parameters for external PostgreSQL
     conn_params = {
         'host': 'localhost',
-        'port': 5433,
+        'port': 5432,
         'database': 'japanese_learning',
-        'user': 'user',
-        'password': 'password'
+        'user': 'postgres',
+        'password': 'admin'
     }
     
     try:

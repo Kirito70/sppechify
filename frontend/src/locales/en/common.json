@@ -22,21 +22,42 @@
     "reviewCards": "Review Cards"
   },
   "auth": {
-    "login": "Log In",
-    "register": "Sign Up", 
-    "email": "Email",
+    "loading": "Loading...",
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to continue your learning journey",
+      "button": "Sign In"
+    },
+    "register": {
+      "title": "Sign Up",
+      "subtitle": "Create an account to start learning",
+      "button": "Create Account"
+    },
+    "email": "Email Address",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "fullName": "Full Name",
     "nativeLanguage": "Native Language",
     "forgotPassword": "Forgot Password?",
-    "loginButton": "Sign In",
-    "registerButton": "Create Account",
-    "haveAccount": "Already have an account?",
-    "noAccount": "Don't have an account?",
-    "emailPlaceholder": "Enter your email",
+    "haveAccount": "Already have an account? ",
+    "noAccount": "Don't have an account? ",
+    "emailPlaceholder": "Enter your email address",
     "passwordPlaceholder": "Enter your password",
-    "namePlaceholder": "Enter your full name"
+    "namePlaceholder": "Enter your full name",
+    "success": "Success",
+    "loginSuccess": "Login successful!",
+    "errors": {
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "nameRequired": "Full name is required",
+      "loginFailed": "Login failed. Please check your credentials and try again.",
+      "registerFailed": "Registration failed. Please try again.",
+      "networkError": "Network error. Please check your connection and try again."
+    }
   },
   "learning": {
     "flashcards": "Flashcards",

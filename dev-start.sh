@@ -26,11 +26,15 @@ run_backend() {
     cd backend
     
     # Install basic dependencies first
-    ./venv/bin/pip install fastapi 'uvicorn[standard]' psycopg2-binary
+    ./venv/bin/pip install fastapi 'uvicorn[standard]' psycopg2-binary pydantic-settings
     
-    # Start with simple app first, then upgrade to full app when dependencies are ready
-    echo "🚀 Starting with simple backend (upgrading dependencies in background)..."
-    ./venv/bin/python simple_app.py &
+    # Set environment variables and start proper main app
+    echo "🚀 Starting backend with proper main app..."
+    export POSTGRES_USER=postgres
+    export POSTGRES_PASSWORD=admin
+    export UPLOAD_PATH=./uploads
+    
+    ./venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 &
     BACKEND_PID=$!
     cd ..
 }

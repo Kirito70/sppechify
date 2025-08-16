@@ -1,21 +1,23 @@
 # Japanese Language Learning App
 *AI-Powered Language Learning with OCR and Speech Recognition*
 
-## 📊 **Current Project Status: Foundation Complete (25%)**
+## 📊 **Current Project Status: Foundation Complete (90%)**
 
 ### ✅ **What's Working Now**
 - **FastAPI Backend**: Complete with authentication, database models, OCR framework
+- **Database Integration**: PostgreSQL connection working with external container
+- **Backend Testing**: Comprehensive pytest framework with 7/7 tests passing
 - **React Native Frontend**: Mobile app with Japanese UI and navigation  
-- **Docker Environment**: Full development stack with PostgreSQL and Redis
+- **Development Environment**: Fixed dependency conflicts, streamlined dev setup
 - **Architecture**: Production-ready foundation with comprehensive documentation
 
-### 🚧 **What's Next**
-- **Database Integration**: Connect and test SQLModel with PostgreSQL (2-3 days)
-- **Core Learning**: Flashcard system with spaced repetition (1 week)
-- **AI Integration**: PaddleOCR and Japanese TTS/STT (4-5 weeks)
+### 🚧 **What's Next (Phase 1A - Ready to Start)**
+- **Frontend Testing**: Jest + React Native Testing Library setup
+- **Authentication UI**: Complete login/register screens implementation
+- **Frontend-Backend Integration**: Connect React Native to FastAPI APIs
 
-**📈 Progress**: Foundation (25%) → MVP (50%) → Full App (100%)
-**⏱️ Timeline**: ~3-4 months remaining for complete application
+**📈 Progress**: Foundation (90%) → Phase 1A (95%) → Core Features (Phase 2)
+**⏱️ Status**: Ready for Phase 1A development - foundation is solid
 
 ## 🏗️ Project Architecture
 
@@ -47,10 +49,11 @@ setup.sh + dev-start.sh  # Automated development setup ✅
 ## 🚀 Quick Start
 
 ### **Prerequisites**
-- Docker & Docker Compose
-- Node.js 18+ (for frontend development)  
-- Python 3.11+ (for backend development)
+- Python 3.11+ (backend development)
+- Node.js 18+ (frontend development)  
 - Expo CLI for React Native development
+- External PostgreSQL container (localhost:5432)
+- External Redis container (localhost:6379)
 
 ### **Development Setup**
 
@@ -58,14 +61,13 @@ setup.sh + dev-start.sh  # Automated development setup ✅
 # 1. Clone and navigate to project
 cd speechify
 
-# 2. Start development environment
-./setup.sh
+# 2. Start development environment (uses external services)
 ./dev-start.sh
 
 # 3. Backend (FastAPI)
 cd backend
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+python -m app.main
 # → http://localhost:8000/docs
 
 # 4. Frontend (React Native)  
@@ -77,34 +79,49 @@ npm start
 
 ### **Services**
 - **Backend API**: http://localhost:8000 (with `/docs` for API documentation)
-- **Database**: PostgreSQL on port 5433
-- **Cache**: Redis on port 6378
+- **Database**: External PostgreSQL on localhost:5432
+- **Cache**: External Redis on localhost:6379
 - **Frontend**: Expo development server
+
+### **Testing**
+```bash
+# Backend tests (7/7 passing)
+cd backend
+./run_tests.sh
+
+# Test database connection
+python test_basic_connection.py
+```
 
 ## 🎯 Feature Implementation Status
 
-### ✅ **Implemented (Foundation - 25%)**
+### ✅ **Implemented (Foundation - 90%)**
 
 #### **Backend Services**
 - [x] **FastAPI Application**: Complete setup with CORS, middleware, health checks
 - [x] **JWT Authentication**: Registration, login, token refresh endpoints
 - [x] **Database Models**: Complete schema for users, progress, Japanese content
+- [x] **Database Integration**: PostgreSQL connection working with external container
+- [x] **Testing Framework**: Comprehensive pytest setup with 7/7 tests passing
 - [x] **OCR Service**: Framework ready for PaddleOCR integration
 - [x] **Configuration**: Environment-based settings management
+- [x] **Dependency Management**: Fixed Python 3.13 compatibility issues
 
 #### **Frontend Application**
 - [x] **Mobile App Structure**: React Native with TypeScript and navigation
 - [x] **Japanese UI**: Proper typography and home screen interface
 - [x] **Navigation System**: Bottom tab navigation with Japanese labels
 - [x] **Styling System**: NativeWind (TailwindCSS) configuration
+- [x] **Dependency Resolution**: Fixed i18next and expo-media-library conflicts
 
 #### **Development Infrastructure**  
-- [x] **Docker Environment**: PostgreSQL, Redis, Nginx, backend services
-- [x] **Development Scripts**: Automated setup and startup procedures
+- [x] **Development Scripts**: Automated setup using external PostgreSQL/Redis
+- [x] **Environment Configuration**: Proper .env handling, database credentials
+- [x] **Testing Infrastructure**: Backend test suite operational
 - [x] **Documentation**: Comprehensive planning and architecture docs
 
-### 🚧 **In Progress (Phase 1 Completion - 5%)**
-- [ ] **Database Integration**: Connect and test SQLModel with PostgreSQL
+### 🚧 **In Progress (Phase 1A - Next Steps)**
+- [ ] **Frontend Testing**: Jest + React Native Testing Library setup
 - [ ] **Authentication Flow**: Complete frontend login/register screens
 - [ ] **API Integration**: Connect React Native app to FastAPI backend
 
