@@ -39,8 +39,7 @@
       "ENABLE_ANALYTICS": "false"
     },
     "plugins": [
-      "expo-camera",
-      "expo-media-library"
+      "expo-camera"
     ]
   }
 }
