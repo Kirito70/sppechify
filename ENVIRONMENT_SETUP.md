@@ -36,7 +36,7 @@ POSTGRES_HOST=db          # Docker service name
 POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-POSTGRES_DB=language_learning
+POSTGRES_DB=japanese_learning
 
 # Redis Configuration
 REDIS_HOST=redis          # Docker service name
@@ -66,7 +66,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = "../../.env"  # Points to backend/.env
         env_file_encoding = 'utf-8'
-    
+
     # Database URL is constructed automatically
     @property
     def DATABASE_URL(self) -> str:
@@ -103,10 +103,10 @@ import Constants from 'expo-constants';
 
 const getEnvVar = (name: string, defaultValue: string = ''): string => {
   // Try to get from Expo config first
-  const value = Constants.expoConfig?.extra?.[name] || 
+  const value = Constants.expoConfig?.extra?.[name] ||
                 Constants.manifest?.extra?.[name] ||
                 Constants.manifest2?.extra?.[name];
-  
+
   return value !== undefined ? value : envDefaults[name] || defaultValue;
 };
 

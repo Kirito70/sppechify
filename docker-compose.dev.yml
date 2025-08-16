@@ -4,18 +4,18 @@ services:
   # PostgreSQL Database
   db:
     image: postgres:15
-    container_name: language_learning_db
+    container_name: japanese_learning_db
     environment:
-      POSTGRES_DB: language_learning
+      POSTGRES_DB: japanese_learning
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5438:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker-configs/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d language_learning"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d japanese_learning"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -23,9 +23,9 @@ services:
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: language_learning_redis
+    container_name: japanese_learning_redis
     ports:
-      - "6379:6379"
+      - "6383:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -39,7 +39,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    container_name: language_learning_backend
+    container_name: japanese_learning_backend
     ports:
       - "8000:8000"
     volumes:

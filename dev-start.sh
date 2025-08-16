@@ -4,13 +4,13 @@
 
 echo "🚀 Starting Japanese Learning App Development Environment..."
 
-# Start Docker services
-echo "📦 Starting Docker services (PostgreSQL, Redis)..."
-docker compose up -d postgres redis
+# # Start Docker services
+# echo "📦 Starting Docker services (PostgreSQL, Redis)..."
+# docker compose up -f docker-compose.dev.yml -d postgres redis
 
-# Wait for services to be ready
-echo "⏳ Waiting for services to be ready..."
-sleep 10
+# # Wait for services to be ready
+# echo "⏳ Waiting for services to be ready..."
+# sleep 10
 
 # Check if Python virtual environment exists, create if not
 if [ ! -d "backend/venv" ]; then
