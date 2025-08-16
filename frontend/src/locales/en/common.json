@@ -1,0 +1,98 @@
+{
+  "navigation": {
+    "home": "Home",
+    "learn": "Learn",
+    "camera": "Camera", 
+    "profile": "Profile"
+  },
+  "home": {
+    "title": "Japanese Learning",
+    "welcomeMessage": "Welcome back!",
+    "todayProgress": "Today's Progress",
+    "dailyGoal": "Daily Goal",
+    "streak": "Learning Streak",
+    "days": "days",
+    "wordsLearned": "Words Learned",
+    "practiceTime": "Practice Time",
+    "minutes": "minutes",
+    "quickActions": "Quick Actions",
+    "startLearning": "Start Learning",
+    "takePhoto": "Scan Text",
+    "practiceSpeak": "Practice Speaking",
+    "reviewCards": "Review Cards"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Sign Up", 
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "nativeLanguage": "Native Language",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Sign In",
+    "registerButton": "Create Account",
+    "haveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "namePlaceholder": "Enter your full name"
+  },
+  "learning": {
+    "flashcards": "Flashcards",
+    "showAnswer": "Show Answer", 
+    "nextCard": "Next Card",
+    "difficulty": "How was this?",
+    "easy": "Easy",
+    "medium": "Good",
+    "hard": "Hard",
+    "again": "Again",
+    "sessionComplete": "Session Complete!",
+    "cardsReviewed": "Cards Reviewed",
+    "accuracy": "Accuracy",
+    "timeSpent": "Time Spent"
+  },
+  "camera": {
+    "scanText": "Scan Japanese Text",
+    "tapToCapture": "Tap to capture",
+    "processing": "Processing...",
+    "textFound": "Text Found",
+    "addToLearning": "Add to Learning",
+    "retake": "Retake Photo"
+  },
+  "profile": {
+    "title": "Profile",
+    "statistics": "Statistics",
+    "settings": "Settings",
+    "language": "App Language",
+    "difficulty": "Learning Level",
+    "dailyGoal": "Daily Goal",
+    "notifications": "Notifications",
+    "about": "About",
+    "logout": "Log Out"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel", 
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Try Again"
+  },
+  "difficulty": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate", 
+    "advanced": "Advanced"
+  },
+  "languages": {
+    "english": "English",
+    "japanese": "日本語",
+    "spanish": "Español"
+  }
+}

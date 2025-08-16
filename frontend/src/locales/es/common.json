@@ -1,0 +1,98 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "learn": "Aprender",
+    "camera": "Cámara", 
+    "profile": "Perfil"
+  },
+  "home": {
+    "title": "Aprendizaje de Japonés",
+    "welcomeMessage": "¡Bienvenido de vuelta!",
+    "todayProgress": "Progreso de Hoy",
+    "dailyGoal": "Meta Diaria",
+    "streak": "Racha de Aprendizaje",
+    "days": "días",
+    "wordsLearned": "Palabras Aprendidas",
+    "practiceTime": "Tiempo de Práctica",
+    "minutes": "minutos",
+    "quickActions": "Acciones Rápidas",
+    "startLearning": "Comenzar Aprendizaje",
+    "takePhoto": "Escanear Texto",
+    "practiceSpeak": "Practicar Pronunciación",
+    "reviewCards": "Repasar Cartas"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "register": "Registrarse", 
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "fullName": "Nombre Completo",
+    "nativeLanguage": "Idioma Nativo",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "loginButton": "Iniciar Sesión",
+    "registerButton": "Crear Cuenta",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "noAccount": "¿No tienes una cuenta?",
+    "emailPlaceholder": "Ingresa tu correo",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "namePlaceholder": "Ingresa tu nombre completo"
+  },
+  "learning": {
+    "flashcards": "Tarjetas",
+    "showAnswer": "Mostrar Respuesta", 
+    "nextCard": "Siguiente Carta",
+    "difficulty": "¿Qué tal estuvo?",
+    "easy": "Fácil",
+    "medium": "Bien",
+    "hard": "Difícil",
+    "again": "Otra vez",
+    "sessionComplete": "¡Sesión Completada!",
+    "cardsReviewed": "Cartas Revisadas",
+    "accuracy": "Precisión",
+    "timeSpent": "Tiempo Empleado"
+  },
+  "camera": {
+    "scanText": "Escanear Texto Japonés",
+    "tapToCapture": "Toca para capturar",
+    "processing": "Procesando...",
+    "textFound": "Texto Encontrado",
+    "addToLearning": "Agregar al Aprendizaje",
+    "retake": "Tomar de Nuevo"
+  },
+  "profile": {
+    "title": "Perfil",
+    "statistics": "Estadísticas",
+    "settings": "Configuración",
+    "language": "Idioma de la App",
+    "difficulty": "Nivel de Aprendizaje",
+    "dailyGoal": "Meta Diaria",
+    "notifications": "Notificaciones",
+    "about": "Acerca de",
+    "logout": "Cerrar Sesión"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar", 
+    "ok": "OK",
+    "yes": "Sí",
+    "no": "No",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "retry": "Intentar de Nuevo"
+  },
+  "difficulty": {
+    "beginner": "Principiante",
+    "intermediate": "Intermedio", 
+    "advanced": "Avanzado"
+  },
+  "languages": {
+    "english": "English",
+    "japanese": "日本語",
+    "spanish": "Español"
+  }
+}

@@ -1,0 +1,197 @@
+# ===========================================
+# ROOT PROJECT GITIGNORE
+# ===========================================
+
+# Environment files (ALL locations)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Backend environment files
+backend/.env
+backend/.env.local
+backend/.env.production
+backend/.env.test
+
+# Frontend environment files  
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.test
+
+# Keep example files
+!**/.env.example
+!**/.env.template
+
+# ===========================================
+# PYTHON / BACKEND
+# ===========================================
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Build artifacts
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+backend/venv/
+backend/env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# ===========================================
+# NODE.JS / FRONTEND
+# ===========================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Build outputs
+dist/
+build/
+web-build/
+
+# ===========================================
+# REACT NATIVE / EXPO
+# ===========================================
+
+# Expo
+.expo/
+.expo-shared/
+expo-env.d.ts
+
+# Native builds
+android/
+ios/
+*.apk
+*.ipa
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro bundler
+.metro-health-check*
+
+# ===========================================
+# DOCKER & INFRASTRUCTURE
+# ===========================================
+
+# Docker volumes
+postgres_data/
+redis_data/
+backend_uploads/
+
+# Docker override files
+docker-compose.override.yml
+
+# ===========================================
+# AI MODELS & LARGE FILES
+# ===========================================
+
+# AI Models (large files) - NOT Python model code
+models/
+*.bin
+*.onnx
+*.pt
+*.pth
+*.model
+*.pkl
+
+# Exception: Keep Python model code directories
+!backend/app/models/
+!frontend/src/models/
+
+# Audio/Media files (unless specifically needed)
+uploads/
+temp/
+tmp/
+*.tmp
+*.wav
+*.mp3
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.pdf
+
+# ===========================================
+# DEVELOPMENT TOOLS
+# ===========================================
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Backup files
+*.backup
+*.bak
+
+# Local development
+.python-version
