@@ -72,21 +72,32 @@ def sample_user_data():
 @pytest.fixture
 def sample_user_read():
     """Generate a sample UserRead object."""
-    import uuid
-
     from src.app.schemas.user import UserRead
 
     return UserRead(
         id=1,
-        uuid=uuid.uuid4(),
         name=fake.name(),
         username=fake.user_name(),
         email=fake.email(),
         profile_image_url=fake.image_url(),
         is_superuser=False,
-        created_at=fake.date_time(),
-        updated_at=fake.date_time(),
         tier_id=None,
+        # Japanese Learning Fields (required for UserRead)
+        native_language="english",
+        current_jlpt_level="N5", 
+        target_jlpt_level="N4",
+        daily_study_goal=10,
+        study_streak=0,
+        best_streak=0,
+        total_sentences_learned=0,
+        total_study_time_minutes=0,
+        preferred_study_time="anytime",
+        study_reminders_enabled=True,
+        audio_enabled=True,
+        furigana_enabled=True,
+        romaji_enabled=True,
+        difficulty_preference="adaptive",
+        last_study_date=None,
     )
 
 
@@ -107,7 +118,19 @@ def sample_japanese_sentence_data():
     }
 
 
-@pytest.fixture 
+@pytest.fixture
+def current_user_dict():
+    """Generate a current user dictionary for auth tests."""
+    return {
+        "id": 1,
+        "username": fake.user_name(),
+        "email": fake.email(),
+        "is_superuser": False,
+        "tier_id": None,
+    }
+
+
+@pytest.fixture
 def sample_user_progress_data():
     """Generate sample user progress data for tests."""
     from datetime import datetime

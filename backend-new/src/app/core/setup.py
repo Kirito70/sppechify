@@ -8,6 +8,7 @@ import redis.asyncio as redis
 from arq import create_pool
 from arq.connections import RedisSettings
 from fastapi import APIRouter, Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_redoc_html, get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 
@@ -202,6 +203,23 @@ def create_application(
 
     application = FastAPI(lifespan=lifespan, **kwargs)
     application.include_router(router)
+
+    # Add CORS middleware for frontend integration
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:8000",    # Frontend dev server
+            "http://localhost:8001",    # Backend server
+            "http://localhost:3000",    # Common React dev port
+            "http://localhost:19000",   # Expo dev server default
+            "http://localhost:19001",   # Expo alternative port
+            "exp://localhost:19000",    # Expo protocol
+            "exp://localhost:19001",    # Expo protocol alternative
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     if isinstance(settings, ClientSideCacheSettings):
         application.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)
