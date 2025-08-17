@@ -91,12 +91,37 @@ def sample_user_read():
 
 
 @pytest.fixture
-def current_user_dict():
-    """Mock current user from auth dependency."""
+def sample_japanese_sentence_data():
+    """Generate sample Japanese sentence data for tests."""
     return {
-        "id": 1,
-        "username": fake.user_name(),
-        "email": fake.email(),
-        "name": fake.name(),
-        "is_superuser": False,
+        "japanese_text": "こんにちは",
+        "english_translation": "Hello",
+        "romanization": "konnichiwa",
+        "jlpt_level": "N5",
+        "difficulty_level": 1,
+        "category": "greetings",
+        "lesson_number": 1,
+        "grammar_points": ["basic greeting"],
+        "audio_url": None,
+        "is_active": True
+    }
+
+
+@pytest.fixture 
+def sample_user_progress_data():
+    """Generate sample user progress data for tests."""
+    from datetime import datetime
+    return {
+        "user_id": 1,
+        "sentence_id": 1,
+        "study_status": "learning",
+        "mastery_level": 1,
+        "ease_factor": 2.5,
+        "interval_days": 1,
+        "repetitions": 0,
+        "last_studied": datetime.utcnow(),
+        "next_review": datetime.utcnow(),
+        "total_reviews": 0,
+        "correct_reviews": 0,
+        "streak_count": 0
     }
