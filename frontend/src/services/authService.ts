@@ -143,7 +143,7 @@ export class AuthService {
    */
   static async getCurrentUser(): Promise<User> {
     try {
-      const response: AxiosResponse<User> = await api.get('/users/me');
+      const response: AxiosResponse<User> = await api.get('/user/me/');
       return response.data;
     } catch (error: any) {
       console.error('Get current user failed:', error.response?.data || error.message);
