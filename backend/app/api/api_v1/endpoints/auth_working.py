@@ -20,7 +20,6 @@ async def register(
     user_data: UserCreate,
     session: Session = Depends(get_session)
 ):
-    # Check if user already exists
     statement = select(User).where(User.email == user_data.email)
     existing_user = session.exec(statement).first()
     if existing_user:
@@ -29,11 +28,9 @@ async def register(
             detail="Email already registered"
         )
     
-    # Create new user
     hashed_password = get_password_hash(user_data.password)
     username = user_data.email.split('@')[0]
     
-    # Ensure username is unique
     statement = select(User).where(User.username == username)
     existing_username = session.exec(statement).first()
     if existing_username:
@@ -53,11 +50,9 @@ async def register(
     session.commit()
     session.refresh(db_user)
     
-    # Create access token
     user_id = str(db_user.id) if db_user.id else str(uuid.uuid4())
     access_token = create_access_token(subject=user_id)
     
-    # Return user data
     return UserResponse(
         user={
             "id": user_id,
@@ -81,7 +76,6 @@ async def login(
     user_credentials: UserLogin,
     session: Session = Depends(get_session)
 ):
-    # Find user by email
     statement = select(User).where(User.email == user_credentials.email)
     user = session.exec(statement).first()
     
@@ -97,11 +91,9 @@ async def login(
             detail="User account is disabled"
         )
     
-    # Create access token
     user_id = str(user.id) if user.id else str(uuid.uuid4())
     access_token = create_access_token(subject=user_id)
     
-    # Return user data
     return UserResponse(
         user={
             "id": user_id,
