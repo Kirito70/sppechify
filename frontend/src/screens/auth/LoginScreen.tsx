@@ -131,7 +131,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             label={t('auth.username')}
             value={formData.username}
             onChangeText={(value) => handleInputChange('username', value)}
-            placeholder={t('auth.usernamePlaceholder')}
+            placeholder={t('auth.usernameLoginPlaceholder')}
             autoCapitalize="none"
             autoCorrect={false}
             editable={!state.isLoading}

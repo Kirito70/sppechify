@@ -47,6 +47,7 @@
     "passwordPlaceholder": "パスワードを入力",
     "namePlaceholder": "名前を入力",
     "usernamePlaceholder": "ユーザー名を選んでください",
+    "usernameLoginPlaceholder": "ユーザー名を入力",
     "success": "成功",
     "loginSuccess": "ログイン成功！",
     "errors": {

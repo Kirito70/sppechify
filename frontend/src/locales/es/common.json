@@ -47,6 +47,7 @@
     "passwordPlaceholder": "Ingresa tu contraseña",
     "namePlaceholder": "Ingresa tu nombre",
     "usernamePlaceholder": "Elige un nombre de usuario",
+    "usernameLoginPlaceholder": "Ingresa tu nombre de usuario",
     "success": "Éxito",
     "loginSuccess": "¡Inicio de sesión exitoso!",
     "errors": {
