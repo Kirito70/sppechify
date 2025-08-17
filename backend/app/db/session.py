@@ -1,24 +1,21 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Session, create_engine
+from typing import Generator
 from app.core.config import settings
 
-engine = create_async_engine(
-    settings.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://"),
+# Create engine - using regular engine for SQLModel
+engine = create_engine(
+    settings.DATABASE_URL,
     echo=True,
     pool_pre_ping=True
 )
 
-async_session_maker = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+
+def create_db_and_tables():
+    """Create database tables if they don't exist."""
+    SQLModel.metadata.create_all(engine)
 
 
-async def create_db_and_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.create_all)
-
-
-async def get_session() -> AsyncSession:
-    async with async_session_maker() as session:
+def get_session() -> Generator[Session, None, None]:
+    """Dependency to get database session."""
+    with Session(engine) as session:
         yield session

@@ -1,24 +1,12 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
-from app.models import UserRole, DifficultyLevel
 
 
-# Base user schema
-class UserBase(BaseModel):
+# Simplified user creation schema for frontend
+class UserCreate(BaseModel):
+    fullName: str
     email: EmailStr
-    username: str
-    full_name: Optional[str] = None
-    role: UserRole = UserRole.STUDENT
-    is_active: bool = True
-    is_verified: bool = False
-    daily_goal: int = 10
-    preferred_difficulty: DifficultyLevel = DifficultyLevel.BEGINNER
-    native_language: str = "en"
-
-
-# User creation schema
-class UserCreate(UserBase):
     password: str
 
 
@@ -26,18 +14,13 @@ class UserCreate(UserBase):
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     daily_goal: Optional[int] = None
-    preferred_difficulty: Optional[DifficultyLevel] = None
     native_language: Optional[str] = None
 
 
-# User response schema
-class UserResponse(UserBase):
-    id: str
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
+# User response schema that matches frontend expectations
+class UserResponse(BaseModel):
+    user: dict
+    token: str
 
 
 # Authentication schemas

@@ -30,6 +30,9 @@ frontend/.env.test
 # PYTHON / BACKEND
 # ===========================================
 
+# Problematic files that keep reverting
+backend/app/api/api_v1/endpoints/auth.py
+
 # Python cache
 __pycache__/
 *.py[cod]

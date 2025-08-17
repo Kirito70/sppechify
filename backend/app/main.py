@@ -26,16 +26,19 @@ def create_application() -> FastAPI:
     )
     
     # Create upload directory if it doesn't exist
-    os.makedirs(settings.UPLOAD_PATH, exist_ok=True)
+    upload_dir = os.path.join(os.getcwd(), "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
     
     # Mount static files
-    if os.path.exists(settings.UPLOAD_PATH):
-        app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_PATH), name="uploads")
+    upload_dir = os.path.join(os.getcwd(), "uploads")
+    if os.path.exists(upload_dir):
+        app.mount("/uploads", StaticFiles(directory=upload_dir), name="uploads")
     
     # Startup event
     @app.on_event("startup")
-    async def startup_event():
-        await create_db_and_tables()
+    def startup_event():
+        # Skip table creation for now - tables already exist
+        pass
     
     # Include API routes
     app.include_router(api_router, prefix=settings.API_V1_STR)
