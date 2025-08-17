@@ -22,21 +22,48 @@
     "reviewCards": "カード復習"
   },
   "auth": {
-    "login": "ログイン",
-    "register": "新規登録", 
+    "loading": "読み込み中...",
+    "login": {
+      "title": "おかえりなさい",
+      "subtitle": "学習を続けるためにサインインしてください",
+      "button": "サインイン"
+    },
+    "register": {
+      "title": "新規登録",
+      "subtitle": "学習を始めるためにアカウントを作成してください",
+      "button": "アカウント作成"
+    },
     "email": "メールアドレス",
     "password": "パスワード",
     "confirmPassword": "パスワード確認",
     "fullName": "氏名",
+    "name": "名前",
+    "username": "ユーザー名",
     "nativeLanguage": "母語",
     "forgotPassword": "パスワードを忘れましたか？",
-    "loginButton": "ログイン",
-    "registerButton": "アカウント作成",
-    "haveAccount": "アカウントをお持ちですか？",
-    "noAccount": "アカウントをお持ちでないですか？",
+    "haveAccount": "アカウントをお持ちですか？ ",
+    "noAccount": "アカウントをお持ちでないですか？ ",
     "emailPlaceholder": "メールアドレスを入力",
     "passwordPlaceholder": "パスワードを入力",
-    "namePlaceholder": "氏名を入力"
+    "namePlaceholder": "名前を入力",
+    "usernamePlaceholder": "ユーザー名を選んでください",
+    "success": "成功",
+    "loginSuccess": "ログイン成功！",
+    "errors": {
+      "emailRequired": "メールアドレスが必要です",
+      "emailInvalid": "有効なメールアドレスを入力してください",
+      "passwordRequired": "パスワードが必要です",
+      "passwordTooShort": "パスワードは8文字以上である必要があります",
+      "confirmPasswordRequired": "パスワードを確認してください",
+      "passwordsDoNotMatch": "パスワードが一致しません",
+      "nameRequired": "名前が必要です",
+      "usernameRequired": "ユーザー名が必要です",
+      "usernameTooShort": "ユーザー名は2文字以上である必要があります",
+      "usernameInvalid": "ユーザー名は小文字と数字のみ使用できます",
+      "loginFailed": "ログインに失敗しました。認証情報を確認してもう一度試してください。",
+      "registerFailed": "登録に失敗しました。もう一度試してください。",
+      "networkError": "ネットワークエラーです。接続を確認してもう一度試してください。"
+    }
   },
   "learning": {
     "flashcards": "単語カード",

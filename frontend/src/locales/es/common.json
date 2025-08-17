@@ -22,21 +22,48 @@
     "reviewCards": "Repasar Cartas"
   },
   "auth": {
-    "login": "Iniciar Sesión",
-    "register": "Registrarse", 
+    "loading": "Cargando...",
+    "login": {
+      "title": "Bienvenido de Vuelta",
+      "subtitle": "Inicia sesión para continuar tu viaje de aprendizaje",
+      "button": "Iniciar Sesión"
+    },
+    "register": {
+      "title": "Registrarse",
+      "subtitle": "Crea una cuenta para comenzar a aprender",
+      "button": "Crear Cuenta"
+    },
     "email": "Correo Electrónico",
     "password": "Contraseña",
     "confirmPassword": "Confirmar Contraseña",
     "fullName": "Nombre Completo",
+    "name": "Nombre",
+    "username": "Nombre de Usuario",
     "nativeLanguage": "Idioma Nativo",
     "forgotPassword": "¿Olvidaste tu contraseña?",
-    "loginButton": "Iniciar Sesión",
-    "registerButton": "Crear Cuenta",
-    "haveAccount": "¿Ya tienes una cuenta?",
-    "noAccount": "¿No tienes una cuenta?",
-    "emailPlaceholder": "Ingresa tu correo",
+    "haveAccount": "¿Ya tienes una cuenta? ",
+    "noAccount": "¿No tienes una cuenta? ",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
     "passwordPlaceholder": "Ingresa tu contraseña",
-    "namePlaceholder": "Ingresa tu nombre completo"
+    "namePlaceholder": "Ingresa tu nombre",
+    "usernamePlaceholder": "Elige un nombre de usuario",
+    "success": "Éxito",
+    "loginSuccess": "¡Inicio de sesión exitoso!",
+    "errors": {
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Por favor ingresa un correo electrónico válido",
+      "passwordRequired": "La contraseña es requerida",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+      "confirmPasswordRequired": "Por favor confirma tu contraseña",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "nameRequired": "El nombre es requerido",
+      "usernameRequired": "El nombre de usuario es requerido",
+      "usernameTooShort": "El nombre de usuario debe tener al menos 2 caracteres",
+      "usernameInvalid": "El nombre de usuario solo puede contener letras minúsculas y números",
+      "loginFailed": "Error en inicio de sesión. Verifica tus credenciales e intenta de nuevo.",
+      "registerFailed": "Error en registro. Por favor intenta de nuevo.",
+      "networkError": "Error de red. Verifica tu conexión e intenta de nuevo."
+    }
   },
   "learning": {
     "flashcards": "Tarjetas",
