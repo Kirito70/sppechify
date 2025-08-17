@@ -23,12 +23,12 @@ interface LoginScreenProps {
 }
 
 interface FormData {
-  email: string;
+  username: string;  // Changed from email to username
   password: string;
 }
 
 interface FormErrors {
-  email?: string;
+  username?: string;  // Changed from email to username
   password?: string;
 }
 
@@ -36,7 +36,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const { t } = useTranslation('common');
   const { state, login, clearError } = useAuth();
   const [formData, setFormData] = useState<FormData>({
-    email: '',
+    username: '',  // Changed from email
     password: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -47,24 +47,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     clearError();
   }, [clearError]);
 
-  // Email validation regex
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  // Form validation
+  // Username validation (changed from email)
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = t('auth.errors.emailRequired');
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = t('auth.errors.emailInvalid');
+    // Username validation
+    if (!formData.username.trim()) {
+      newErrors.username = t('auth.errors.usernameRequired');
+    } else if (formData.username.length < 2) {
+      newErrors.username = t('auth.errors.usernameTooShort');
     }
 
     // Password validation
     if (!formData.password) {
       newErrors.password = t('auth.errors.passwordRequired');
-    } else if (formData.password.length < 6) {
+    } else if (formData.password.length < 8) {
       newErrors.password = t('auth.errors.passwordTooShort');
     }
 
@@ -92,7 +89,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     }
 
     try {
-      await login(formData);
+      // Pass username/password to our updated AuthContext
+      await login({
+        username: formData.username.toLowerCase().trim(),
+        password: formData.password,
+      });
       // Success is handled by the AuthContext and navigation will be handled by App.tsx
       Alert.alert(t('auth.success'), t('auth.loginSuccess'));
     } catch (error) {
@@ -125,17 +126,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
         {/* Login Form */}
         <>
-          {/* Email Input */}
+          {/* Username Input (changed from Email) */}
           <ResponsiveInput
-            label={t('auth.email')}
-            value={formData.email}
-            onChangeText={(value) => handleInputChange('email', value)}
-            placeholder={t('auth.emailPlaceholder')}
-            keyboardType="email-address"
+            label={t('auth.username')}
+            value={formData.username}
+            onChangeText={(value) => handleInputChange('username', value)}
+            placeholder={t('auth.usernamePlaceholder')}
             autoCapitalize="none"
             autoCorrect={false}
             editable={!state.isLoading}
-            error={errors.email}
+            error={errors.username}
           />
 
           {/* Password Input */}

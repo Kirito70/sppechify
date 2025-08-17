@@ -1,15 +1,9 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import env from '../config/env';
+import { AuthService, User, LoginCredentials, RegisterCredentials } from '../services/authService';
 
-// Types
-export interface User {
-  id: string;
-  email: string;
-  fullName: string;
-  createdAt: string;
-}
+// Re-export types for convenience
+export type { User, LoginCredentials, RegisterCredentials };
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -17,17 +11,6 @@ export interface AuthState {
   user: User | null;
   token: string | null;
   error: string | null;
-}
-
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface RegisterCredentials {
-  fullName: string;
-  email: string;
-  password: string;
 }
 
 // Action types
@@ -112,21 +95,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const TOKEN_KEY = 'auth_token';
 const USER_KEY = 'auth_user';
 
-// API functions
-const api = axios.create({
-  baseURL: env.API_BASE_URL,
-});
-
-const apiLogin = async (credentials: LoginCredentials) => {
-  const response = await api.post('/auth/login', credentials);
-  return response.data;
-};
-
-const apiRegister = async (credentials: RegisterCredentials) => {
-  const response = await api.post('/auth/register', credentials);
-  return response.data;
-};
-
 // Provider component
 interface AuthProviderProps {
   children: ReactNode;
@@ -146,12 +114,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const user = JSON.parse(userString);
           
           // Set authorization header for future requests
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          AuthService.setAuthToken(token);
           
-          dispatch({ 
-            type: 'RESTORE_TOKEN', 
-            payload: { user, token } 
-          });
+          // Verify token is still valid by getting current user
+          try {
+            const currentUser = await AuthService.getCurrentUser();
+            dispatch({ 
+              type: 'RESTORE_TOKEN', 
+              payload: { user: currentUser, token } 
+            });
+          } catch (error) {
+            // Token is invalid, clear stored data
+            await AsyncStorage.removeItem(TOKEN_KEY);
+            await AsyncStorage.removeItem(USER_KEY);
+            AuthService.removeAuthToken();
+            dispatch({ type: 'RESTORE_TOKEN', payload: null });
+          }
         } else {
           dispatch({ type: 'RESTORE_TOKEN', payload: null });
         }
@@ -170,27 +148,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'SET_ERROR', payload: null });
 
     try {
-      const response = await apiLogin(credentials);
-      const { user, token } = response;
+      // Login and get token
+      const loginResponse = await AuthService.login(credentials);
+      const { access_token } = loginResponse;
+
+      // Set auth token for future requests
+      AuthService.setAuthToken(access_token);
+
+      // Get user profile
+      const user = await AuthService.getCurrentUser();
 
       // Store token and user in AsyncStorage
-      await AsyncStorage.setItem(TOKEN_KEY, token);
+      await AsyncStorage.setItem(TOKEN_KEY, access_token);
       await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
-
-      // Set authorization header for future requests
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       dispatch({ 
         type: 'LOGIN_SUCCESS', 
-        payload: { user, token } 
+        payload: { user, token: access_token } 
       });
     } catch (error: any) {
       console.error('Login error:', error);
       
       let errorMessage = 'Login failed. Please try again.';
-      if (error.response?.data?.detail) {
-        errorMessage = error.response.data.detail;
-      } else if (error.message) {
+      if (error.message) {
         errorMessage = error.message;
       }
       
@@ -205,34 +185,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'SET_ERROR', payload: null });
 
     try {
-      const response = await apiRegister(credentials);
-      const { user, token } = response;
+      // Register user
+      const user = await AuthService.register(credentials);
 
-      // Store token and user in AsyncStorage
-      await AsyncStorage.setItem(TOKEN_KEY, token);
-      await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
-
-      // Set authorization header for future requests
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-      dispatch({ 
-        type: 'LOGIN_SUCCESS', 
-        payload: { user, token } 
+      // After successful registration, log the user in
+      await login({
+        username: credentials.username,
+        password: credentials.password,
       });
     } catch (error: any) {
       console.error('Registration error:', error);
       
       let errorMessage = 'Registration failed. Please try again.';
-      if (error.response?.data?.detail) {
-        errorMessage = error.response.data.detail;
-      } else if (error.message) {
+      if (error.message) {
         errorMessage = error.message;
       }
       
       dispatch({ type: 'SET_ERROR', payload: errorMessage });
       throw error;
     }
-  }, []);
+  }, [login]);
 
   // Logout function
   const logout = useCallback(async () => {
@@ -244,7 +216,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await AsyncStorage.removeItem(USER_KEY);
 
       // Remove authorization header
-      delete api.defaults.headers.common['Authorization'];
+      AuthService.removeAuthToken();
 
       dispatch({ type: 'LOGOUT' });
     } catch (error) {

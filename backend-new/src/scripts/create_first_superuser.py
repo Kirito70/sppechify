@@ -52,6 +52,21 @@ async def create_first_user(session: AsyncSession) -> None:
                 "username": username,
                 "hashed_password": hashed_password,
                 "is_superuser": True,
+                # Japanese Learning Fields (required)
+                "native_language": "english",
+                "current_jlpt_level": "N5",
+                "target_jlpt_level": "N1",
+                "daily_study_goal": 20,
+                "study_streak": 0,
+                "best_streak": 0,
+                "total_sentences_learned": 0,
+                "total_study_time_minutes": 0,
+                "preferred_study_time": "anytime",
+                "study_reminders_enabled": True,
+                "audio_enabled": True,
+                "furigana_enabled": True,
+                "romaji_enabled": True,
+                "difficulty_preference": "adaptive",
             }
 
             stmt = insert(user_table).values(data)

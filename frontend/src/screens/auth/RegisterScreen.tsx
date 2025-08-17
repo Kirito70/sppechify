@@ -23,14 +23,16 @@ interface RegisterScreenProps {
 }
 
 interface FormData {
-  fullName: string;
+  name: string;          // Changed from fullName
+  username: string;      // Added username field
   email: string;
   password: string;
   confirmPassword: string;
 }
 
 interface FormErrors {
-  fullName?: string;
+  name?: string;         // Changed from fullName
+  username?: string;     // Added username field
   email?: string;
   password?: string;
   confirmPassword?: string;
@@ -40,7 +42,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const { t } = useTranslation('common');
   const { state, register, clearError } = useAuth();
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
+    name: '',        // Changed from fullName
+    username: '',    // Added username field
     email: '',
     password: '',
     confirmPassword: '',
@@ -61,11 +64,20 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Full name validation
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = t('auth.errors.nameRequired');
-    } else if (formData.fullName.trim().length < 2) {
-      newErrors.fullName = 'Full name must be at least 2 characters';
+    // Name validation (changed from fullName)
+    if (!formData.name.trim()) {
+      newErrors.name = t('auth.errors.nameRequired');
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+
+    // Username validation (new field)
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    } else if (formData.username.length < 2) {
+      newErrors.username = 'Username must be at least 2 characters';
+    } else if (!/^[a-z0-9]+$/.test(formData.username)) {
+      newErrors.username = 'Username can only contain lowercase letters and numbers';
     }
 
     // Email validation
@@ -75,11 +87,11 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       newErrors.email = t('auth.errors.emailInvalid');
     }
 
-    // Password validation
+    // Password validation - Updated to match backend requirements (8 chars minimum)
     if (!formData.password) {
       newErrors.password = t('auth.errors.passwordRequired');
-    } else if (formData.password.length < 6) {
-      newErrors.password = t('auth.errors.passwordTooShort');
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
     }
 
     // Confirm password validation
@@ -115,6 +127,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     try {
       // Extract confirmPassword since it's not needed for the API
       const { confirmPassword, ...registrationData } = formData;
+      
+      // Pass data matching our backend API format
       await register(registrationData);
       // Success is handled by the AuthContext and navigation will be handled by App.tsx
       Alert.alert(t('auth.success'), 'Registration successful!');
@@ -143,16 +157,28 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
         {/* Registration Form */}
         <>
-          {/* Full Name Input */}
+          {/* Name Input (changed from Full Name) */}
           <ResponsiveInput
-            label={t('auth.fullName')}
-            value={formData.fullName}
-            onChangeText={(value) => handleInputChange('fullName', value)}
+            label={t('auth.name')}
+            value={formData.name}
+            onChangeText={(value) => handleInputChange('name', value)}
             placeholder={t('auth.namePlaceholder')}
             autoCapitalize="words"
             autoCorrect={false}
             editable={!state.isLoading}
-            error={errors.fullName}
+            error={errors.name}
+          />
+
+          {/* Username Input (new field) */}
+          <ResponsiveInput
+            label="Username"
+            value={formData.username}
+            onChangeText={(value) => handleInputChange('username', value.toLowerCase())}
+            placeholder="Choose a username"
+            autoCapitalize="none"
+            autoCorrect={false}
+            editable={!state.isLoading}
+            error={errors.username}
           />
 
           {/* Email Input */}
