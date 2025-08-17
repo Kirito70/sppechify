@@ -210,15 +210,29 @@ def create_application(
         allow_origins=[
             "http://localhost:8000",    # Frontend dev server
             "http://localhost:8001",    # Backend server
+            "http://localhost:8081",    # Expo dev server (web)
             "http://localhost:3000",    # Common React dev port
             "http://localhost:19000",   # Expo dev server default
             "http://localhost:19001",   # Expo alternative port
             "exp://localhost:19000",    # Expo protocol
             "exp://localhost:19001",    # Expo protocol alternative
+            "http://127.0.0.1:8081",    # Alternative localhost format
+            "http://127.0.0.1:8000",    # Alternative localhost format
+            "http://127.0.0.1:8001",    # Alternative localhost format
         ],
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+        allow_headers=[
+            "accept",
+            "accept-encoding", 
+            "authorization",
+            "content-type",
+            "dnt",
+            "origin",
+            "user-agent",
+            "x-csrftoken",
+            "x-requested-with",
+        ],
     )
 
     if isinstance(settings, ClientSideCacheSettings):
