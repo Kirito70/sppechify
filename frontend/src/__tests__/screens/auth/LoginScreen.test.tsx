@@ -38,17 +38,17 @@ describe('LoginScreen', () => {
   it('renders login form correctly', () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    expect(screen.getByText('Login')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Username')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Password')).toBeOnTheScreen();
-    expect(screen.getByText('Login')).toBeOnTheScreen();
-    expect(screen.getByText('Register')).toBeOnTheScreen();
+    expect(screen.getByText('Welcome Back')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Enter your username')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Enter your password')).toBeOnTheScreen();
+    expect(screen.getByText('Sign In')).toBeOnTheScreen();
+    expect(screen.getByText("Don't have an account?  Sign Up")).toBeOnTheScreen();
   });
 
   it('validates form inputs correctly', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const loginButton = screen.getByText('Login');
+    const loginButton = screen.getByText('Sign In');
     fireEvent.press(loginButton);
     
     await waitFor(() => {
@@ -62,39 +62,39 @@ describe('LoginScreen', () => {
   it('validates username length', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const loginButton = screen.getByText('Sign In');
     
     fireEvent.changeText(usernameInput, 'a');
     fireEvent.press(loginButton);
     
     await waitFor(() => {
-      expect(screen.getByText('Username is too short')).toBeOnTheScreen();
+      expect(screen.getByText('Username must be at least 2 characters')).toBeOnTheScreen();
     });
   });
 
   it('validates password length', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Sign In');
     
     fireEvent.changeText(usernameInput, 'validuser');
     fireEvent.changeText(passwordInput, '123');
     fireEvent.press(loginButton);
     
     await waitFor(() => {
-      expect(screen.getByText('Password is too short')).toBeOnTheScreen();
+      expect(screen.getByText('Password must be at least 8 characters')).toBeOnTheScreen();
     });
   });
 
   it('submits valid form data', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Sign In');
     
     fireEvent.changeText(usernameInput, 'testuser');
     fireEvent.changeText(passwordInput, 'password123');
@@ -111,9 +111,9 @@ describe('LoginScreen', () => {
   it('trims and lowercases username', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Sign In');
     
     fireEvent.changeText(usernameInput, '  TestUser  ');
     fireEvent.changeText(passwordInput, 'password123');
@@ -142,8 +142,8 @@ describe('LoginScreen', () => {
 
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
     
     expect(usernameInput.props.editable).toBe(false);
     expect(passwordInput.props.editable).toBe(false);
@@ -170,8 +170,8 @@ describe('LoginScreen', () => {
   it('clears field errors when user starts typing', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const loginButton = screen.getByText('Sign In');
     
     // Trigger validation error
     fireEvent.press(loginButton);
@@ -202,7 +202,7 @@ describe('LoginScreen', () => {
 
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
     fireEvent.changeText(usernameInput, 'test');
     
     expect(mockClearError).toHaveBeenCalled();
@@ -211,7 +211,7 @@ describe('LoginScreen', () => {
   it('toggles password visibility', () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const passwordInput = screen.getByPlaceholderText('Password');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
     const toggleButton = screen.getByText('🙈');
     
     expect(passwordInput.props.secureTextEntry).toBe(true);
@@ -225,7 +225,7 @@ describe('LoginScreen', () => {
   it('navigates to register screen', () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const registerLink = screen.getByText('Register');
+    const registerLink = screen.getByText("Don't have an account?  Sign Up");
     fireEvent.press(registerLink);
     
     expect(mockNavigation.navigate).toHaveBeenCalledWith('Register');
@@ -243,16 +243,16 @@ describe('LoginScreen', () => {
   it('shows success alert on successful login', async () => {
     render(<LoginScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const loginButton = screen.getByText('Login');
+    const usernameInput = screen.getByPlaceholderText('Enter your username');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const loginButton = screen.getByText('Sign In');
     
     fireEvent.changeText(usernameInput, 'testuser');
     fireEvent.changeText(passwordInput, 'password123');
     fireEvent.press(loginButton);
     
     await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith('Success', 'Login successful');
+      expect(Alert.alert).toHaveBeenCalledWith('Success', 'Login successful!');
     });
   });
 

@@ -74,16 +74,16 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     // Username validation (new field)
     if (!formData.username.trim()) {
       newErrors.username = 'Username is required';
-    } else if (formData.username.length < 2) {
+    } else if (formData.username.trim().length < 2) {
       newErrors.username = 'Username must be at least 2 characters';
-    } else if (!/^[a-z0-9]+$/.test(formData.username)) {
+    } else if (!/^[a-z0-9]+$/.test(formData.username.trim())) {
       newErrors.username = 'Username can only contain lowercase letters and numbers';
     }
 
     // Email validation
     if (!formData.email.trim()) {
       newErrors.email = t('auth.errors.emailRequired');
-    } else if (!emailRegex.test(formData.email)) {
+    } else if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = t('auth.errors.emailInvalid');
     }
 
@@ -128,8 +128,16 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       // Extract confirmPassword since it's not needed for the API
       const { confirmPassword, ...registrationData } = formData;
       
+      // Trim and normalize data
+      const normalizedData = {
+        ...registrationData,
+        email: registrationData.email.trim().toLowerCase(),
+        username: registrationData.username.trim().toLowerCase(),
+        name: registrationData.name.trim(),
+      };
+      
       // Pass data matching our backend API format
-      await register(registrationData);
+      await register(normalizedData);
       // Success is handled by the AuthContext and navigation will be handled by App.tsx
       Alert.alert(t('auth.success'), 'Registration successful!');
     } catch (error) {

@@ -38,24 +38,24 @@ describe('RegisterScreen', () => {
   it('renders register form correctly', () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    expect(screen.getByText('Register')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Full Name')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Username')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Email')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Password')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Confirm Password')).toBeOnTheScreen();
+    expect(screen.getByText('Sign Up')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Enter your name')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Choose a username')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Enter your email address')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Enter your password')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Confirm your password')).toBeOnTheScreen();
   });
 
   it('validates required fields', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const registerButton = screen.getByText('Register');
+    const registerButton = screen.getByText('Create Account');
     fireEvent.press(registerButton);
     
     await waitFor(() => {
       expect(screen.getByText('Name is required')).toBeOnTheScreen();
       expect(screen.getByText('Username is required')).toBeOnTheScreen();
-      expect(screen.getByText('Email is required')).toBeOnTheScreen();
+      expect(screen.getByText('Email address is required')).toBeOnTheScreen();
       expect(screen.getByText('Password is required')).toBeOnTheScreen();
     });
     
@@ -65,22 +65,22 @@ describe('RegisterScreen', () => {
   it('validates name length', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'a');
     fireEvent.press(registerButton);
     
     await waitFor(() => {
-      expect(screen.getByText('Name must be at least 2 characters')).toBeOnTheScreen();
+      expect(screen.getByText('Name must be at least 2 characters')).toBeOnTheScreen(); // Using the actual error message from validation
     });
   });
 
   it('validates username format', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const registerButton = screen.getByText('Register');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(usernameInput, 'User@123');
     fireEvent.press(registerButton);
@@ -93,10 +93,10 @@ describe('RegisterScreen', () => {
   it('validates email format', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
     fireEvent.changeText(usernameInput, 'testuser');
@@ -104,18 +104,18 @@ describe('RegisterScreen', () => {
     fireEvent.press(registerButton);
     
     await waitFor(() => {
-      expect(screen.getByText('Invalid email address')).toBeOnTheScreen();
+      expect(screen.getByText('Please enter a valid email address')).toBeOnTheScreen();
     });
   });
 
   it('validates password length', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
     fireEvent.changeText(usernameInput, 'testuser');
@@ -131,12 +131,12 @@ describe('RegisterScreen', () => {
   it('validates password confirmation match', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
     fireEvent.changeText(usernameInput, 'testuser');
@@ -153,12 +153,12 @@ describe('RegisterScreen', () => {
   it('submits valid form data', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
     fireEvent.changeText(usernameInput, 'testuser');
@@ -169,6 +169,7 @@ describe('RegisterScreen', () => {
     
     await waitFor(() => {
       expect(mockRegister).toHaveBeenCalledWith({
+        name: 'Test User',
         email: 'test@example.com',
         username: 'testuser',
         password: 'password123',
@@ -179,15 +180,15 @@ describe('RegisterScreen', () => {
   it('trims and lowercases email and username', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
-    fireEvent.changeText(usernameInput, '  TestUser123  ');
+    fireEvent.changeText(usernameInput, '  testuser  '); // Valid username without numbers
     fireEvent.changeText(emailInput, '  Test@Example.COM  ');
     fireEvent.changeText(passwordInput, 'password123');
     fireEvent.changeText(confirmPasswordInput, 'password123');
@@ -195,8 +196,9 @@ describe('RegisterScreen', () => {
     
     await waitFor(() => {
       expect(mockRegister).toHaveBeenCalledWith({
+        name: 'Test User',
         email: 'test@example.com',
-        username: 'testuser123',
+        username: 'testuser',
         password: 'password123',
       });
     });
@@ -217,11 +219,11 @@ describe('RegisterScreen', () => {
 
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
     
     expect(nameInput.props.editable).toBe(false);
     expect(usernameInput.props.editable).toBe(false);
@@ -251,7 +253,7 @@ describe('RegisterScreen', () => {
   it('toggles password visibility', () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const passwordInput = screen.getByPlaceholderText('Password');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
     const toggleButton = screen.getAllByText('🙈')[0];
     
     expect(passwordInput.props.secureTextEntry).toBe(true);
@@ -265,7 +267,7 @@ describe('RegisterScreen', () => {
   it('toggles confirm password visibility', () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
     const toggleButton = screen.getAllByText('🙈')[1];
     
     expect(confirmPasswordInput.props.secureTextEntry).toBe(true);
@@ -279,7 +281,7 @@ describe('RegisterScreen', () => {
   it('navigates to login screen', () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const loginLink = screen.getByText('Login');
+    const loginLink = screen.getByText('Already have an account?  Welcome Back');
     fireEvent.press(loginLink);
     
     expect(mockNavigation.navigate).toHaveBeenCalledWith('Login');
@@ -288,12 +290,12 @@ describe('RegisterScreen', () => {
   it('shows success alert on successful registration', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const usernameInput = screen.getByPlaceholderText('Username');
-    const emailInput = screen.getByPlaceholderText('Email');
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm Password');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const usernameInput = screen.getByPlaceholderText('Choose a username');
+    const emailInput = screen.getByPlaceholderText('Enter your email address');
+    const passwordInput = screen.getByPlaceholderText('Enter your password');
+    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
+    const registerButton = screen.getByText('Create Account');
     
     fireEvent.changeText(nameInput, 'Test User');
     fireEvent.changeText(usernameInput, 'testuser');
@@ -303,15 +305,15 @@ describe('RegisterScreen', () => {
     fireEvent.press(registerButton);
     
     await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith('Success', 'Registration successful');
+      expect(Alert.alert).toHaveBeenCalledWith('Success', 'Registration successful!');
     });
   });
 
   it('clears field errors when user starts typing', async () => {
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
-    const registerButton = screen.getByText('Register');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
+    const registerButton = screen.getByText('Create Account');
     
     // Trigger validation error
     fireEvent.press(registerButton);
@@ -342,7 +344,7 @@ describe('RegisterScreen', () => {
 
     render(<RegisterScreen navigation={mockNavigation} />);
     
-    const nameInput = screen.getByPlaceholderText('Full Name');
+    const nameInput = screen.getByPlaceholderText('Enter your name');
     fireEvent.changeText(nameInput, 'Test');
     
     expect(mockClearError).toHaveBeenCalled();

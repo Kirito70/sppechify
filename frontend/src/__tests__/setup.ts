@@ -2,10 +2,7 @@ import 'react-native-gesture-handler/jestSetup';
 
 // Mock React Native
 jest.mock('react-native', () => {
-  const RN = jest.requireActual('react-native');
-  
   return {
-    ...RN,
     Platform: {
       OS: 'ios',
       select: jest.fn((options) => options.ios),
@@ -16,11 +13,18 @@ jest.mock('react-native', () => {
       removeEventListener: jest.fn(),
     },
     StyleSheet: {
-      ...RN.StyleSheet,
+      create: jest.fn((styles) => styles),
       flatten: jest.fn((style) => style || {}),
     },
+    View: 'View',
+    Text: 'Text',
+    ScrollView: 'ScrollView',
+    TouchableOpacity: 'TouchableOpacity',
+    TextInput: 'TextInput',
+    SafeAreaView: 'SafeAreaView',
+    KeyboardAvoidingView: 'KeyboardAvoidingView',
+    ActivityIndicator: 'ActivityIndicator',
     NativeModules: {
-      ...RN.NativeModules,
       SettingsManager: {
         settings: {},
       },
@@ -45,15 +49,40 @@ jest.mock('react-native-safe-area-context', () => ({
 }));
 
 // Mock ResponsiveLayout components
-jest.mock('../components/ResponsiveLayout', () => ({
-  ResponsiveLayout: ({ children }: any) => children,
-  ResponsiveCard: ({ children }: any) => children,
-  ResponsiveHeader: ({ title }: any) => `Header: ${title}`,
-  ResponsiveInput: ({ label, testID }: any) => `Input: ${label}`,
-  ResponsiveButton: ({ title, testID }: any) => `Button: ${title}`,
-  ResponsiveDivider: ({ text }: any) => `Divider: ${text}`,
-  ResponsiveLink: ({ text, linkText }: any) => `Link: ${text} ${linkText}`,
-}));
+jest.mock('../components/ResponsiveLayout', () => {
+  const React = require('react');
+  const { View, Text, TextInput, TouchableOpacity } = require('react-native');
+  
+  return {
+    ResponsiveLayout: ({ children }: any) => React.createElement(View, { testID: 'responsive-layout' }, children),
+    ResponsiveCard: ({ children }: any) => React.createElement(View, { testID: 'responsive-card' }, children),
+    ResponsiveHeader: ({ title }: any) => React.createElement(Text, { testID: 'responsive-header' }, title),
+    ResponsiveInput: ({ label, placeholder, value, onChangeText, testID, editable = true, secureTextEntry = false, error, rightElement }: any) => 
+      React.createElement(View, null, [
+        label ? React.createElement(Text, { key: `${testID}-label` }, label) : null,
+        React.createElement(TextInput, { 
+          key: `${testID}-input`,
+          testID,
+          placeholder,
+          value,
+          onChangeText,
+          editable,
+          secureTextEntry
+        }),
+        rightElement ? React.createElement(View, { key: `${testID}-right` }, rightElement) : null,
+        error ? React.createElement(Text, { key: `${testID}-error`, testID: 'input-error' }, error) : null
+      ].filter(Boolean)),
+    ResponsiveButton: ({ title, onPress, testID, disabled = false }: any) => 
+      React.createElement(TouchableOpacity, { onPress, testID, disabled }, 
+        React.createElement(Text, null, title)
+      ),
+    ResponsiveDivider: ({ text }: any) => React.createElement(Text, { testID: 'responsive-divider' }, text || ''),
+    ResponsiveLink: ({ text, linkText, onPress }: any) => 
+      React.createElement(TouchableOpacity, { onPress },
+        React.createElement(Text, null, `${text || ''}${linkText || ''}`)
+      ),
+  };
+});
 
 // Mock utils/responsive
 jest.mock('../utils/responsive', () => ({
@@ -109,7 +138,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 
 // Mock React Navigation
 jest.mock('@react-navigation/native', () => ({
-  ...jest.requireActual('@react-navigation/native'),
   useNavigation: () => ({
     navigate: jest.fn(),
     goBack: jest.fn(),
@@ -128,6 +156,10 @@ jest.mock('@react-navigation/native', () => ({
   }),
   useFocusEffect: jest.fn(),
   NavigationContainer: ({ children }: any) => children,
+  CommonActions: {
+    navigate: jest.fn(),
+    reset: jest.fn(),
+  },
 }));
 
 jest.mock('@react-navigation/stack', () => ({
@@ -150,29 +182,32 @@ jest.mock('@react-navigation/bottom-tabs', () => ({
   }),
 }));
 
+// Create a shared mock instance for all axios usage
+const mockAxiosInstance = {
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  delete: jest.fn(),
+  defaults: {
+    headers: {
+      common: {},
+    },
+  },
+  interceptors: {
+    request: {
+      use: jest.fn(),
+      eject: jest.fn(),
+    },
+    response: {
+      use: jest.fn(),
+      eject: jest.fn(),
+    },
+  },
+};
+
 // Mock Axios
 jest.mock('axios', () => ({
-  create: jest.fn(() => ({
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
-    defaults: {
-      headers: {
-        common: {},
-      },
-    },
-    interceptors: {
-      request: {
-        use: jest.fn(),
-        eject: jest.fn(),
-      },
-      response: {
-        use: jest.fn(),
-        eject: jest.fn(),
-      },
-    },
-  })),
+  create: jest.fn(() => mockAxiosInstance),
   get: jest.fn(),
   post: jest.fn(),
   put: jest.fn(),
@@ -183,6 +218,9 @@ jest.mock('axios', () => ({
     },
   },
 }));
+
+// Export mockAxiosInstance for use in tests
+global.mockAxiosInstance = mockAxiosInstance;
 
 // Mock AuthService as a proper class (only for specific tests that need it mocked)
 // The simple test will use the real AuthService
@@ -205,10 +243,44 @@ if (shouldMockAuthService) {
   });
 }
 
-// Mock i18next
+// Mock i18next with proper translations
+const translations = {
+  'auth.login.title': 'Welcome Back',
+  'auth.login.button': 'Sign In',
+  'auth.register.title': 'Sign Up',
+  'auth.register.button': 'Create Account',
+  'auth.username': 'Username',
+  'auth.password': 'Password',
+  'auth.name': 'Full Name',
+  'auth.email': 'Email Address',
+  'auth.confirmPassword': 'Confirm Password',
+  'auth.usernameLoginPlaceholder': 'Enter your username',
+  'auth.passwordPlaceholder': 'Enter your password',
+  'auth.namePlaceholder': 'Enter your name',
+  'auth.usernamePlaceholder': 'Choose a username',
+  'auth.emailPlaceholder': 'Enter your email address',
+  'auth.forgotPassword': 'Forgot Password?',
+  'auth.noAccount': "Don't have an account? ",
+  'auth.haveAccount': 'Already have an account? ',
+  'auth.success': 'Success',
+  'auth.loginSuccess': 'Login successful!',
+  'auth.errors.usernameRequired': 'Username is required',
+  'auth.errors.usernameTooShort': 'Username must be at least 2 characters',
+  'auth.errors.passwordRequired': 'Password is required',
+  'auth.errors.passwordTooShort': 'Password must be at least 8 characters',
+  'auth.errors.nameRequired': 'Name is required',
+  'auth.errors.nameTooShort': 'Name must be at least 2 characters',
+  'auth.errors.emailRequired': 'Email address is required',
+  'auth.errors.emailInvalid': 'Please enter a valid email address',
+  'auth.errors.confirmPasswordRequired': 'Please confirm your password',
+  'auth.errors.passwordsDoNotMatch': 'Passwords do not match',
+  'auth.errors.usernameInvalid': 'Username can only contain lowercase letters and numbers',
+  'common.loading': 'Loading...',
+};
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key: string) => translations[key] || key,
     i18n: {
       changeLanguage: jest.fn(),
       language: 'en',
@@ -223,7 +295,7 @@ jest.mock('react-i18next', () => ({
 jest.mock('i18next', () => ({
   use: jest.fn().mockReturnThis(),
   init: jest.fn().mockResolvedValue({}),
-  t: (key: string) => key,
+  t: (key: string) => translations[key] || key,
   changeLanguage: jest.fn(),
   language: 'en',
 }));

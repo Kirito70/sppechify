@@ -2,6 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
 import HomeScreen from '../../screens/HomeScreen';
+import { AuthProvider } from '../../contexts/AuthContext';
+
+// Test wrapper component that provides AuthContext
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AuthProvider>
+    {children}
+  </AuthProvider>
+);
 
 // Mock the i18n hook
 jest.mock('react-i18next', () => ({
@@ -32,7 +40,7 @@ jest.mock('../../config/env', () => ({
 
 describe('HomeScreen', () => {
   it('renders correctly', () => {
-    render(<HomeScreen />);
+    render(<HomeScreen />, { wrapper: TestWrapper });
     
     // Check if main elements are present
     expect(screen.getByText('Language Learning')).toBeOnTheScreen();
@@ -41,7 +49,7 @@ describe('HomeScreen', () => {
   });
 
   it('displays progress counters', () => {
-    render(<HomeScreen />);
+    render(<HomeScreen />, { wrapper: TestWrapper });
     
     // Check progress counters - they should show 0 initially
     const progressCounters = screen.getAllByText('0');
@@ -54,7 +62,7 @@ describe('HomeScreen', () => {
   });
 
   it('displays quick action buttons', () => {
-    render(<HomeScreen />);
+    render(<HomeScreen />, { wrapper: TestWrapper });
     
     // Check all quick action buttons are present
     expect(screen.getByText('📚 Start Learning')).toBeOnTheScreen();
@@ -63,14 +71,14 @@ describe('HomeScreen', () => {
   });
 
   it('shows recent activity section', () => {
-    render(<HomeScreen />);
+    render(<HomeScreen />, { wrapper: TestWrapper });
     
     expect(screen.getByText('Recent Activity')).toBeOnTheScreen();
     expect(screen.getByText('No activity yet. Start learning to see your progress here!')).toBeOnTheScreen();
   });
 
   it('displays debug info in development', () => {
-    render(<HomeScreen />);
+    render(<HomeScreen />, { wrapper: TestWrapper });
     
     // Check if debug info is shown when ENABLE_DEBUG_LOGS is true
     expect(screen.getByText('🔧 API: http://localhost:8000/api/v1')).toBeOnTheScreen();
