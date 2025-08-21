@@ -107,3 +107,47 @@ class JapaneseSentenceStats(BaseModel):
     average_score: Optional[float] = None
     difficulty_level: int
     jlpt_level: Optional[str] = None
+
+
+# Schemas for Japanese text processing
+class JapaneseTextProcessingRequest(BaseModel):
+    """Request schema for Japanese text processing"""
+    model_config = ConfigDict(extra="forbid")
+    
+    japanese_text: Annotated[str, Field(min_length=1, max_length=1000, description="Japanese text to process")]
+
+
+class JapaneseTextProcessingResponse(BaseModel):
+    """Response schema for Japanese text processing"""
+    model_config = ConfigDict()
+    
+    original_text: str
+    furigana: Optional[str] = None
+    romanization: Optional[str] = None
+    has_kanji: Optional[bool] = None
+    kanji_count: Optional[int] = None
+    kanji_characters: Optional[list] = None
+    difficulty_estimate: Optional[int] = None
+    estimated_jlpt_level: Optional[str] = None
+    sentence_type: Optional[str] = None
+    character_composition: Optional[dict] = None
+    error: Optional[str] = None
+
+
+class FuriganaGenerationRequest(BaseModel):
+    """Request schema for furigana generation"""
+    model_config = ConfigDict(extra="forbid")
+    
+    japanese_text: Annotated[str, Field(min_length=1, max_length=1000, description="Japanese text to generate furigana for")]
+    include_markup: bool = Field(default=False, description="Include HTML ruby markup in response")
+
+
+class FuriganaGenerationResponse(BaseModel):
+    """Response schema for furigana generation"""
+    model_config = ConfigDict()
+    
+    original_text: str
+    furigana: Optional[str] = None
+    furigana_markup: Optional[str] = None
+    has_kanji: bool = False
+    error: Optional[str] = None
